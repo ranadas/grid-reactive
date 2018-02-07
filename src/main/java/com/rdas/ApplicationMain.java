@@ -1,5 +1,6 @@
 package com.rdas;
 
+import com.rdas.model.RepositorySummary;
 import com.rdas.service.ServiceAggregator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ public class ApplicationMain implements CommandLineRunner {
 
     @Override
     public void run(String... strings) throws Exception {
-        serviceAggregator.aggregate();
+        RepositorySummary aggregate = serviceAggregator.aggregate();
+        log.info("\n\n{}\n\n", aggregate.toString());
     }
 }
