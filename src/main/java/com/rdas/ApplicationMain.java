@@ -27,7 +27,7 @@ public class ApplicationMain implements CommandLineRunner {
 
     @Override
     public void run(String... strings) throws Exception {
-        //List<RepositorySummary> aggregate = serviceAggregator.aggregate();
+//        List<RepositorySummary> aggregate = serviceAggregator.aggregate();
         //log.info("\n{}\n\n", objectMapper.writeValueAsString(aggregate));
     }
 }
