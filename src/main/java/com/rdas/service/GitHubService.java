@@ -4,7 +4,8 @@ package com.rdas.service;
 import com.rdas.model.GitHubResponse;
 
 import java.io.IOException;
+import java.util.Optional;
 
 public interface GitHubService {
-    GitHubResponse search(String searchString) throws IOException;
+    Optional<GitHubResponse> search(String searchString) throws IOException;
 }

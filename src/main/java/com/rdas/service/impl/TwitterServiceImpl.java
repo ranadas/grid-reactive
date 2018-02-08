@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rdas.model.TwitterResponse;
 import com.rdas.service.TwitterService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.Cacheable;
@@ -12,8 +13,10 @@ import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.Twitter;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotNull;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -22,34 +25,28 @@ public class TwitterServiceImpl implements TwitterService {
 
     private Twitter twitter;
     private ObjectMapper objectMapper;
+    @Autowired
+    private TwitterClient twitterClient;
 
     public TwitterServiceImpl(@Qualifier("localMapper") @Autowired ObjectMapper localMapper, @Autowired Twitter twitter) {
         this.twitter = twitter;
         this.objectMapper = localMapper;
     }
-
-    @Autowired
-    private TwitterClient twitterClient;
-//    @Cacheable("searches")
-//    @Override
-//    public List<String> search(String keyword){
-//        return twitterClient.searchTweets(keyword)
-//                .getTweets().stream()
-//                .map(Tweet::getText)
-//                .collect(Collectors.toList());
-//    }
-
     @Cacheable("searches")
     @Override
-    public List<TwitterResponse> searchResponse(String searchString) {
+    public Optional<List<TwitterResponse>> searchResponse(@NotNull String searchString) {
+        if (StringUtils.isEmpty(searchString)) {
+            return Optional.empty();
+        }
 //        List<TwitterResponse> react = search(SearchParameters.ResultType.MIXED.toString(), Arrays.asList(searchString));
 //        //List<LightTweet> react = search(SearchParameters.ResultType.RECENT.toString(), Arrays.asList("Java"));
 //        log.info(react.toString());
 //        return react;
-        return twitterClient.searchTweets(searchString)
+        List<TwitterResponse> collect = twitterClient.searchTweets(searchString)
                 .getTweets().stream()
                 .map(TwitterResponse::ofTweet)
                 .collect(Collectors.toList());
+        return Optional.ofNullable(collect);
     }
 //
 //    public List<TwitterResponse> search(String searchType, List<String> keywords) {

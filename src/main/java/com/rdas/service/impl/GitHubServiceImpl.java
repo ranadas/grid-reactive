@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -26,9 +27,9 @@ public class GitHubServiceImpl implements GitHubService {
     }
 
     @Override
-    public GitHubResponse search(String searchString) throws IOException {
+    public Optional<GitHubResponse> search(String searchString) throws IOException {
         if (StringUtils.isEmpty(searchString)) {
-            return new GitHubResponse();
+            return Optional.empty();
         }
 
         HttpUrl.Builder urlBuilder = HttpUrl.parse(externalServiceUrl).newBuilder();
@@ -52,6 +53,6 @@ public class GitHubServiceImpl implements GitHubService {
 
         GitHubResponse gitHubResponse = objectMapper.readValue(jsonResponse, GitHubResponse.class);
         log.info("Full gitHub response : {} ", objectMapper.writeValueAsString(gitHubResponse));
-        return gitHubResponse;
+        return Optional.of(gitHubResponse);
     }
 }

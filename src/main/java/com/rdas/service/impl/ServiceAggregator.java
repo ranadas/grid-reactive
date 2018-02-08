@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -26,19 +27,21 @@ public class ServiceAggregator implements Aggregator {
         this.twitterService = twitterService;
     }
 
-    public List<RepositorySummary> aggregate(String searchTerm) throws IOException {
-        GitHubResponse gitHubResponse = gitHubService.search(searchTerm);
-
-        List<RepositorySummary> collect = gitHubResponse.getRepositoryItems()
+    public Optional<List<RepositorySummary>> aggregate(String searchTerm) throws IOException {
+        Optional<GitHubResponse> gitHubResponse = gitHubService.search(searchTerm);
+        if (!gitHubResponse.isPresent()) {
+            return Optional.empty();
+        }
+        List<RepositorySummary> collect = gitHubResponse.get().getRepositoryItems()
                 .stream()
 //                .limit(2)
                 .map(item -> itemConverter.apply(item))
                 .collect(Collectors.toList());
         log.info(collect.toString());
-        return collect;
+        return Optional.of(collect);
     }
 
-    Function<RepositoryItem, List<TwitterResponse>> getTweets = item -> twitterService.searchResponse(item.getHtmlUrl());
+    Function<RepositoryItem, Optional<List<TwitterResponse>>> getTweets = item -> twitterService.searchResponse(item.getHtmlUrl());
 
     Function<RepositoryItem, RepositorySummary> itemConverter = item ->
             RepositorySummary.builder()

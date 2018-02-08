@@ -1,27 +1,29 @@
 package com.rdas.service;
 
-import com.rdas.testconfig.SpringTestConfig;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-@ActiveProfiles("test")
-@RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {SpringTestConfig.class})
-public class ServiceAggregatorTest {
+import java.io.IOException;
 
-    @Qualifier("basicGHService")
+import static junit.framework.TestCase.assertNotNull;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class ServiceAggregatorTest {
     @Autowired
-    private GitHubService gitHubService;
+    private Aggregator aggregator;
 
 
     @Test
     public void assertThatServicesAreInjected() {
-        Assert.assertNotNull(gitHubService);
+        assertNotNull(aggregator);
+    }
+
+    @Test
+    public void assertThatAggregatorTakesEmptyString() throws IOException{
+        assertNotNull(aggregator.aggregate(""));
     }
 }

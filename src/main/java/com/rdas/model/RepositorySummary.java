@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Builder
 @Getter
@@ -15,5 +16,9 @@ public class RepositorySummary {
     private String reposityName;
     private String reposityDescription;
     private String reposityPublicUrl;
-    private List<TwitterResponse> tweets;
+    private Optional<List<TwitterResponse>> tweets;
+
+    public List<TwitterResponse> getTweets() {
+        return tweets.get();
+    }
 }

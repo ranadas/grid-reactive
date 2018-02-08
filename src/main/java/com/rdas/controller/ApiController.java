@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -29,10 +30,13 @@ public class ApiController {
 
     @GetMapping(path = "/tweets")
     public ResponseEntity<?> check(@RequestParam(name = "search", defaultValue = "Reactive") String searchTerm) throws IOException {
-        List<RepositorySummary> aggregate = serviceAggregator.aggregate(searchTerm);
-        //this is here so that the response is formatted, not necessary.
-        String formattedJson = objectMapper.writeValueAsString(aggregate);
-
-        return new ResponseEntity<>(formattedJson, HttpStatus.OK);
+        Optional<List<RepositorySummary>> aggregate = serviceAggregator.aggregate(searchTerm);
+        if (aggregate.isPresent()) {
+            //sending a formatted json string back instead of the object itself.
+            String formattedJson = objectMapper.writeValueAsString(aggregate.get());
+            return new ResponseEntity<>(formattedJson, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Empty Search", HttpStatus.OK);
+        }
     }
 }
