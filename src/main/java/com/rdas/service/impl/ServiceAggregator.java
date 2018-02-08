@@ -34,7 +34,6 @@ public class ServiceAggregator implements Aggregator {
         }
         List<RepositorySummary> collect = gitHubResponse.get().getRepositoryItems()
                 .stream()
-//                .limit(2)
                 .map(item -> itemConverter.apply(item))
                 .collect(Collectors.toList());
         log.info(collect.toString());

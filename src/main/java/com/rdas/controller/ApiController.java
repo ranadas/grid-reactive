@@ -28,7 +28,7 @@ public class ApiController {
         this.objectMapper = objectMapper;
     }
 
-    @GetMapping(path = "/tweets")
+    @GetMapping(path = "/tweets",produces = "application/json")
     public ResponseEntity<?> check(@RequestParam(name = "search", defaultValue = "Reactive") String searchTerm) throws IOException {
         Optional<List<RepositorySummary>> aggregate = serviceAggregator.aggregate(searchTerm);
         if (aggregate.isPresent()) {
