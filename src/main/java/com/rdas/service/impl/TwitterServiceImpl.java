@@ -30,14 +30,14 @@ public class TwitterServiceImpl implements TwitterService {
 
     @Autowired
     private TwitterClient twitterClient;
-    @Cacheable("searches")
-    @Override
-    public List<String> search(String keyword){
-        return twitterClient.searchTweets(keyword)
-                .getTweets().stream()
-                .map(Tweet::getText)
-                .collect(Collectors.toList());
-    }
+//    @Cacheable("searches")
+//    @Override
+//    public List<String> search(String keyword){
+//        return twitterClient.searchTweets(keyword)
+//                .getTweets().stream()
+//                .map(Tweet::getText)
+//                .collect(Collectors.toList());
+//    }
 
     @Cacheable("searches")
     @Override

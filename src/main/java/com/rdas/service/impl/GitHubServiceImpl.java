@@ -5,6 +5,7 @@ import com.rdas.model.GitHubResponse;
 import com.rdas.service.GitHubService;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,8 +18,6 @@ import java.io.IOException;
 public class GitHubServiceImpl implements GitHubService {
     private ObjectMapper objectMapper;
 
-    public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-
     private String externalServiceUrl;
 
     public GitHubServiceImpl(@Qualifier("localMapper") @Autowired ObjectMapper localMapper, @Value("${external_url}") String serviceUrl) {
@@ -28,7 +27,10 @@ public class GitHubServiceImpl implements GitHubService {
 
     @Override
     public GitHubResponse search(String searchString) throws IOException {
-        //TODO check empty string
+        if (StringUtils.isEmpty(searchString)) {
+            return new GitHubResponse();
+        }
+
         HttpUrl.Builder urlBuilder = HttpUrl.parse(externalServiceUrl).newBuilder();
         urlBuilder.addQueryParameter("q", searchString);
         String url = urlBuilder.build().toString();
@@ -43,12 +45,13 @@ public class GitHubServiceImpl implements GitHubService {
         try {
             responses = client.newCall(request).execute();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e.getLocalizedMessage(), e);
+            throw e;
         }
         String jsonResponse = responses.body().string();
 
         GitHubResponse gitHubResponse = objectMapper.readValue(jsonResponse, GitHubResponse.class);
-        System.out.println(objectMapper.writeValueAsString(gitHubResponse));
+        log.info("Full gitHub response : {} ", objectMapper.writeValueAsString(gitHubResponse));
         return gitHubResponse;
     }
 }

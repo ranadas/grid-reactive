@@ -47,8 +47,8 @@ public class TwitterServiceImplTest {
     public void assertThatServiceCalFatchTweets() throws UnsupportedEncodingException {
         String search = "pwittchen/ReactiveNetwork";
         String encodedString = URLEncoder.encode(search, StandardCharsets.UTF_8.toString());
-        //List<TwitterResponse> tweets = twitterService.search(search);
-        List<String> tweets = twitterService.search(search);
+        List<TwitterResponse> tweets = twitterService.searchResponse(search);
+//        List<String> tweets = twitterService.search(search);
         log.info(tweets.toString());
         Assert.assertNotNull(search);
     }

@@ -20,26 +20,15 @@ public class TwitterResponse {
     private String user;
     private String text;
     private String lang;
-    private LocalDateTime dateTime;
 
     public static TwitterResponse ofTweet(Tweet tweet) {
-        TwitterResponse lightTweet = TwitterResponse.builder().build();
-        lightTweet.setText(tweet.getText());
-
-        Date createdAt = tweet.getCreatedAt();
-        if (createdAt != null) {
-            //lightTweet.dateTime = LocalDateTime.ofInstant(createdAt.toInstant(), ZoneId.systemDefault());
-        }
         TwitterProfile twitterUser = tweet.getUser();
-        if (twitterUser != null) {
-            lightTweet.user = twitterUser.getName();
-        }
-        lightTweet.lang = tweet.getLanguageCode();
+        String user = twitterUser != null ? twitterUser.getName() : "na";
 
-//        tweet.getEntities().getMentions().forEach((MentionEntity m) -> System.out.println(m.getScreenName() + ", "  + m.getName()));
-//        tweet.getEntities().getHashTags().forEach((HashTagEntity t) -> System.out.println(t.getText()));
-        return lightTweet;
-
+        return TwitterResponse.builder()
+                .text(tweet.getText())
+                .lang(tweet.getLanguageCode())
+                .user(user)
+                .build();
     }
-
 }

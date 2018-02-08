@@ -1,6 +1,9 @@
-package com.rdas.service;
+package com.rdas.service.impl;
 
 import com.rdas.model.*;
+import com.rdas.service.Aggregator;
+import com.rdas.service.GitHubService;
+import com.rdas.service.TwitterService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +15,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-public class ServiceAggregator {
+public class ServiceAggregator implements Aggregator {
 
     private GitHubService gitHubService;
     private TwitterService twitterService;
@@ -24,7 +27,6 @@ public class ServiceAggregator {
     }
 
     public List<RepositorySummary> aggregate(String searchTerm) throws IOException {
-//    public TwitterSearchResponses aggregate(String searchTerm) throws IOException {
         GitHubResponse gitHubResponse = gitHubService.search(searchTerm);
 
         List<RepositorySummary> collect = gitHubResponse.getRepositoryItems()
@@ -34,30 +36,15 @@ public class ServiceAggregator {
                 .collect(Collectors.toList());
         log.info(collect.toString());
         return collect;
-//        TwitterSearchResponses t = TwitterSearchResponses.builder()
-//                //.twitterSearchResultList(gitHubService.searchReactiveRepositories().parallelStream()
-//                .twitterSearchResultList(gitHubResponse.getRepositoryItems().stream()
-//                        .map(item -> TwitterSearchResult.builder()
-//                                .query(item.getHtmlUrl())
-//                                //.tweets(twitterService.getTweets(item.getHtmlURL()))
-//                                .tweets(twitterService.search(item.getHtmlUrl()))
-//                                .build())
-//                        .filter(f -> !f.getTweets().isEmpty())
-//                        .collect(Collectors.toList())
-//                )
-//                .build();
-//        return t;
-
     }
 
-    //Function<Item, List<TwitterResponse>> getTweets = item -> twitterService.search(item.getFullName());
     Function<RepositoryItem, List<TwitterResponse>> getTweets = item -> twitterService.searchResponse(item.getHtmlUrl());
-//
+
     Function<RepositoryItem, RepositorySummary> itemConverter = item ->
             RepositorySummary.builder()
-                    .name(item.getName())
-                    .description(item.getDescription())
-                    .publicUrl(item.getHtmlUrl())
+                    .reposityName(item.getName())
+                    .reposityDescription(item.getDescription())
+                    .reposityPublicUrl(item.getHtmlUrl())
                     .tweets(getTweets.apply(item))
                     .build();
 }

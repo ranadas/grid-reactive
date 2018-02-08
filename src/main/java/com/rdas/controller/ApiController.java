@@ -2,8 +2,7 @@ package com.rdas.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rdas.model.RepositorySummary;
-import com.rdas.model.TwitterSearchResponses;
-import com.rdas.service.ServiceAggregator;
+import com.rdas.service.Aggregator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,21 +18,18 @@ import java.util.List;
 @RestController
 public class ApiController {
 
-    private ServiceAggregator serviceAggregator;
+    private Aggregator serviceAggregator;
     private ObjectMapper objectMapper;
 
     @Autowired
-    public ApiController(ServiceAggregator serviceAggregator, ObjectMapper objectMapper) {
+    public ApiController(Aggregator serviceAggregator, ObjectMapper objectMapper) {
         this.serviceAggregator = serviceAggregator;
         this.objectMapper = objectMapper;
     }
 
     @GetMapping(path = "/tweets")
     public ResponseEntity<?> check(@RequestParam(name = "search", defaultValue = "Reactive") String searchTerm) throws IOException {
-
         List<RepositorySummary> aggregate = serviceAggregator.aggregate(searchTerm);
-//        TwitterSearchResponses aggregate = serviceAggregator.aggregate(searchTerm);
-
         //this is here so that the response is formatted, not necessary.
         String formattedJson = objectMapper.writeValueAsString(aggregate);
 
