@@ -21,10 +21,15 @@ public class GitHubServiceTest {
 
     @Qualifier("basicGHService")
     @Autowired
-    private GitHubService gitHubService;
+    private GitHubService basicGHService;
 
     @Test
     public void assertThatServiceReturnsNotNullResponse() throws IOException {
-        Assert.assertNotNull(gitHubService.search("some searchString"));
+        Assert.assertNotNull(basicGHService.search("some searchString"));
+    }
+
+    @Test
+    public void assertThatSearchIsNotNullForNllString() throws IOException {
+        Assert.assertNotNull(basicGHService.search(""));
     }
 }

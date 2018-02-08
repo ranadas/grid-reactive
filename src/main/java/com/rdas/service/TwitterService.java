@@ -6,5 +6,7 @@ import com.rdas.model.TwitterResponse;
 import java.util.List;
 
 public interface TwitterService {
-    List<TwitterResponse> search(String searchString);
+    List<TwitterResponse> searchResponse(String searchString);
+
+    List<String> search(String searchString);
 }

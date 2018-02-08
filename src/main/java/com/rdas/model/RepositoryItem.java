@@ -8,7 +8,7 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-public class Item {
+public class RepositoryItem {
     private String id;
     private String name;
     @JsonProperty("full_name")

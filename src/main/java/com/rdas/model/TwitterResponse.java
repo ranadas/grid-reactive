@@ -36,8 +36,8 @@ public class TwitterResponse {
         }
         lightTweet.lang = tweet.getLanguageCode();
 
-        tweet.getEntities().getMentions().forEach((MentionEntity m) -> System.out.println(m.getScreenName() + ", "  + m.getName()));
-        tweet.getEntities().getHashTags().forEach((HashTagEntity t) -> System.out.println(t.getText()));
+//        tweet.getEntities().getMentions().forEach((MentionEntity m) -> System.out.println(m.getScreenName() + ", "  + m.getName()));
+//        tweet.getEntities().getHashTags().forEach((HashTagEntity t) -> System.out.println(t.getText()));
         return lightTweet;
 
     }

@@ -19,5 +19,6 @@ public class GitHubResponse {
     @JsonProperty("incomplete_results")
     private Boolean incompleteResults;
 
-    private List<Item> items;
+    @JsonProperty("items")
+    private List<RepositoryItem> repositoryItems;
 }
