@@ -12,6 +12,7 @@ import java.util.Optional;
 
 import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertNotNull;
+import static junit.framework.TestCase.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -34,6 +35,8 @@ public class GitHubServiceTest {
 
     @Test
     public void assertThatResponseNotNullForSearch() throws IOException {
-        assertNotNull(basicGHService.search("Spring"));
+        Optional<GitHubResponse> optionalSerarch = basicGHService.search("Spring");
+        assertNotNull(optionalSerarch);
+        assertTrue(optionalSerarch.isPresent());
     }
 }
