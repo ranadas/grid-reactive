@@ -13,9 +13,9 @@ import java.util.Optional;
 @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class RepositorySummary {
-    private String reposityName;
-    private String reposityDescription;
-    private String reposityPublicUrl;
+    private String repositoryName;
+    private String repositoryDescription;
+    private String repositoryPublicUrl;
     private Optional<List<TwitterResponse>> tweets;
 
     public List<TwitterResponse> getTweets() {

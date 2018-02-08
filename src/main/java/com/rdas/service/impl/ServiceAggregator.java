@@ -45,9 +45,9 @@ public class ServiceAggregator implements Aggregator {
 
     Function<RepositoryItem, RepositorySummary> itemConverter = item ->
             RepositorySummary.builder()
-                    .reposityName(item.getName())
-                    .reposityDescription(item.getDescription())
-                    .reposityPublicUrl(item.getHtmlUrl())
+                    .repositoryName(item.getName())
+                    .repositoryDescription(item.getDescription())
+                    .repositoryPublicUrl(item.getHtmlUrl())
                     .tweets(getTweets.apply(item))
                     .build();
 }
