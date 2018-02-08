@@ -25,10 +25,11 @@ public class ApiController {
     private ObjectMapper objectMapper;
 
     @GetMapping(path = "/tweets", produces = "application/json")
-    public ResponseEntity<?> check(@RequestParam(required = true, name = "search") String searchTerm) throws IOException {
+    public ResponseEntity<?> check(@RequestParam(name = "search", defaultValue = "Reactive") String searchTerm) throws IOException {
+
         List<RepositorySummary> aggregate = serviceAggregator.aggregate();
 
-        //this is so the the response os formatted, not necessaty.
+        //this is here so that the response is formatted, not necessary.
         String formattedJson = objectMapper.writeValueAsString(aggregate);
 
         return new ResponseEntity<String>(formattedJson, HttpStatus.OK);
