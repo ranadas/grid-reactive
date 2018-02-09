@@ -7,4 +7,5 @@ spring:
     twitter:
       app-id: aHSBLM2sUk9qN826xP5btJCyj
       app-secret: 5fJJfLu1HajaQ2ybmlBlE6DsGY5e1FMO7CGZLBsa8uKVMkmEuU
-external_url: https://api.github.com/search/repositories
+      ratelimit:  11
+github_repository_search_endpoint: https://api.github.com/search/repositories
