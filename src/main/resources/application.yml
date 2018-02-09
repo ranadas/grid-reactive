@@ -7,5 +7,5 @@ spring:
     twitter:
       app-id: ${TWITTER_APP_ID}
       app-secret: ${TWITTER_APP_SECRET}
-      ratelimit:  11
+      ratelimit:  10
 github_repository_search_endpoint: https://api.github.com/search/repositories
