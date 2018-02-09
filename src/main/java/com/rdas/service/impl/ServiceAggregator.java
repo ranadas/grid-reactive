@@ -6,14 +6,19 @@ import com.rdas.service.GitHubService;
 import com.rdas.service.TwitterService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+/**
+ * Aggregates GitHub and Twitter.
+ */
 @Slf4j
 @Service
 public class ServiceAggregator implements Aggregator {
@@ -36,7 +41,7 @@ public class ServiceAggregator implements Aggregator {
                 .stream()
                 .map(item -> itemConverter.apply(item))
                 .collect(Collectors.toList());
-        log.info(collect.toString());
+        log.debug(collect.toString());
         return Optional.of(collect);
     }
 

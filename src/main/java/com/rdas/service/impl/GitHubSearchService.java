@@ -4,7 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rdas.model.GitHubResponse;
 import com.rdas.service.GitHubService;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.*;
+import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,14 +19,14 @@ import java.util.Optional;
 
 @Slf4j
 @Service
-public class GitHubServiceImpl implements GitHubService {
+public class GitHubSearchService implements GitHubService {
     private ObjectMapper objectMapper;
 
-    private String externalServiceUrl;
+    private String githubSearchEndpoint;
 
-    public GitHubServiceImpl(@Qualifier("localMapper") @Autowired ObjectMapper localMapper, @Value("${external_url}") String serviceUrl) {
+    public GitHubSearchService(@Qualifier("localMapper") @Autowired ObjectMapper localMapper, @Value("${github_repository_search_endpoint}") String serviceUrl) {
         this.objectMapper = localMapper;
-        this.externalServiceUrl = serviceUrl;
+        this.githubSearchEndpoint = serviceUrl;
     }
 
     @Override
@@ -32,7 +35,7 @@ public class GitHubServiceImpl implements GitHubService {
             return Optional.empty();
         }
 
-        HttpUrl.Builder urlBuilder = HttpUrl.parse(externalServiceUrl).newBuilder();
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(githubSearchEndpoint).newBuilder();
         urlBuilder.addQueryParameter("q", searchString);
         String url = urlBuilder.build().toString();
 
@@ -52,7 +55,7 @@ public class GitHubServiceImpl implements GitHubService {
         String jsonResponse = responses.body().string();
 
         GitHubResponse gitHubResponse = objectMapper.readValue(jsonResponse, GitHubResponse.class);
-        log.info("Full gitHub response : {} ", objectMapper.writeValueAsString(gitHubResponse));
+        log.debug("Full gitHub response : {} ", objectMapper.writeValueAsString(gitHubResponse));
         return Optional.of(gitHubResponse);
     }
 }
