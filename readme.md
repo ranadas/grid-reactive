@@ -38,4 +38,15 @@ Its the limit from Twitter.  Its defaulted to 10. To change the tweet search lim
 #Under the Hood:
 This is a Spring SpringBoot application with Java. 
 Have used spring-boot-social-twitter for twitter searches.
-Undertow serving the application instead of default tomcat container.  
+Undertow serving the application instead of default tomcat container.
+  
+  
+### Finally we can also run this in a Docker container.
+After building the artifact, we can build the image by : 
+ ```sh
+docker build -t workday-testimg  . 
+ ``` 
+And Run by  
+```sh
+docker run -d -p8080:8080 -t --name grid-reactive workday-testimg 
+ ```  
