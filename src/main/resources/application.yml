@@ -5,7 +5,7 @@ spring:
     name: mashup-service
   social:
     twitter:
-      app-id: __NA__
-      app-secret: __NA__
+      app-id: ${TWITTER_APP_ID}
+      app-secret: ${TWITTER_APP_SECRET}
       ratelimit:  11
 github_repository_search_endpoint: https://api.github.com/search/repositories

@@ -14,7 +14,10 @@ mvn clean -Dspring.social.twitter.app-id={twitter app id}  -Dspring.social.twitt
 Go to the folder that has the artifact, e.g. target folder after building.
 ```sh
     java  -Dspring.social.twitter.app-id={twitter app id}  -Dspring.social.twitter.app-secret={twitter secret}  -jar grid-reactive.jar
-``` 
+```
+Alternatively, we can set the following environment variables 
+* TWITTER_APP_ID
+* TWITTER_APP_SECRET
 ##There is only one limit on this service. 
 Its the limit from Twitter.  Its defaulted to 10. To change the tweet search limit, which is set to 10 now, we can override in the startup.
 
