@@ -47,3 +47,5 @@ And Run by
 ```sh
 docker run -d -p8080:8080 -t --name grid-reactive workday-testimg 
  ```  
+ 
+ https://github.com/spring-projects/spring-social-samples/blob/master/spring-social-showcase/src/main/java/org/springframework/social/showcase/ExceptionHandlingControllerAdvice.java
